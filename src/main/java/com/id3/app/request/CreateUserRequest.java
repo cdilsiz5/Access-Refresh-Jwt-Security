@@ -23,10 +23,10 @@ public class CreateUserRequest {
 
     @NotBlank(message = "Last name cannot be empty")
     private String surname;
+
     private String identificationNumber;
 
     @Email(message = "Please provide a valid email")
-
     private String email;
 
     private UserRole userRole;

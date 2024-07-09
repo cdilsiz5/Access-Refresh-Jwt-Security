@@ -11,9 +11,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public class UserController {
                             mediaType = "application/json")))
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody @Valid CreateUserRequest user) {
         return userService.createUser(user);
     }
 
@@ -57,6 +59,7 @@ public class UserController {
                             mediaType = "application/json")))
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -74,6 +77,7 @@ public class UserController {
                             mediaType = "application/json")))
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public UserDto updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest user) {
         return userService.updateUser(id, user);
     }
