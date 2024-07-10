@@ -1,4 +1,4 @@
-# ID3 Intern Project
+# Access&Refresh Jwt Token Security
 
 ## Project Overview
 This project is a Spring Boot application designed for handling user authentication and management. It provides a robust security configuration using JWT for secure API access.
