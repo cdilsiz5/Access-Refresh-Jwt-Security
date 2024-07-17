@@ -40,7 +40,7 @@ public class UserController {
                     content = @Content(
                             schema = @Schema(implementation = UserDto.class),
                             mediaType = "application/json")))
-    @PostMapping("/register")
+    @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDto> createUser(@RequestBody @Valid CreateUserRequest user) {
         return userService.createUser(user);

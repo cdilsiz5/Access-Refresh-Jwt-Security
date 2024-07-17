@@ -3,6 +3,7 @@ package com.id3.app.config;
 import com.id3.app.security.service.AuthTokenFilter;
 import com.id3.app.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -27,18 +28,19 @@ public class SecurityConfiguration {
     private final UserServiceImpl userService;
     private final PasswordEncoder passwordEncoder;
     private final RestAuthenticationEntryPoint unauthorizedHandler;
-
+    private final CorsConfig corsConfigurationSource;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/v1/id3/authentication/**").permitAll()
-                        .requestMatchers("/api/v1/id3/users/register/**").permitAll()
+                        .requestMatchers("/api/v1/id3/users/signup").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

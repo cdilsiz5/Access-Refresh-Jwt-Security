@@ -39,8 +39,6 @@ public class AuthServiceImpl implements AuthService {
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
 
-
-
     public ResponseEntity<?> Login(LoginRequest request){
         try {
             Authentication authentication = authenticationManager.authenticate(
